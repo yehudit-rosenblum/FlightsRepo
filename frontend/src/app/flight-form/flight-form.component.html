@@ -1,0 +1,26 @@
+<form [formGroup]="flightForm" (ngSubmit)="saveFlight()">
+    <div>
+      <label for="flightNumber">Flight Number</label>
+      <input id="flightNumber" formControlName="flightNumber" required>
+    </div>
+    <div>
+      <label for="takeoffTime">Takeoff Time</label>
+      <input id="takeoffTime" formControlName="takeoffTime" required>
+    </div>
+    <div>
+      <label for="landingTime">Landing Time</label>
+      <input id="landingTime" formControlName="landingTime" required>
+    </div>
+    <div>
+      <label for="status">Status</label>
+      <select id="status" formControlName="status" required>
+        <option value="hangar">Hangar</option>
+        <option value="airborne">Airborne</option>
+        <option value="malfunction">Malfunction</option>
+      </select>
+    </div>
+    <div>
+      <button type="submit" [disabled]="flightForm.invalid">Save Flight</button>
+    </div>
+  </form>
+  

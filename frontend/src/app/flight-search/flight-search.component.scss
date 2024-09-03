@@ -1,0 +1,13 @@
+.container {
+    width: 80%;
+    margin: 0 auto;
+
+    .search-form {
+        display: flex;
+        align-items: center;
+
+        .input-field {
+            margin-right: 10px;
+        }
+    }
+}
