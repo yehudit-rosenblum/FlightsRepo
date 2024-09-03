@@ -3,12 +3,22 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute } from '@angular/router';
 import { FlightService } from '../flight.service';
 import { CommonModule } from '@angular/common';
-
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 @Component({
   selector: 'app-flight-form',
   templateUrl: './flight-form.component.html',
   styleUrls: ['./flight-form.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,  MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule],
   standalone: true
 })
 export class FlightFormComponent implements OnInit {
@@ -30,9 +40,7 @@ export class FlightFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.flightId = this.route.snapshot.paramMap.get('id');
-
     if (this.flightId) {
-      // מצב עריכה - טען את נתוני הטיסה על פי ה-ID
       this.loadFlightDetails(this.flightId);
     }
   }

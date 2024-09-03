@@ -1,26 +1,40 @@
-<form [formGroup]="flightForm" (ngSubmit)="saveFlight()">
+<div>
+  <h1>Edit Flight {{flightId}}</h1>
+  <form [formGroup]="flightForm" class="centered-form" (ngSubmit)="saveFlight()">
     <div>
-      <label for="flightNumber">Flight Number</label>
-      <input id="flightNumber" formControlName="flightNumber" required>
+      <mat-form-field appearance="fill">
+        <mat-label>Flight Number</mat-label>
+        <input matInput id="flightNumber" formControlName="flightNumber" required>
+      </mat-form-field>
     </div>
+
     <div>
-      <label for="takeoffTime">Takeoff Time</label>
-      <input id="takeoffTime" formControlName="takeoffTime" required>
+      <mat-form-field appearance="fill">
+        <mat-label>Takeoff Time</mat-label>
+        <input matInput id="takeoffTime" formControlName="takeoffTime" type="time" required>
+      </mat-form-field>
     </div>
+
     <div>
-      <label for="landingTime">Landing Time</label>
-      <input id="landingTime" formControlName="landingTime" required>
+      <mat-form-field appearance="fill">
+        <mat-label>Landing Time</mat-label>
+        <input matInput id="landingTime" formControlName="landingTime" type="time" required>
+      </mat-form-field>
     </div>
+
     <div>
-      <label for="status">Status</label>
-      <select id="status" formControlName="status" required>
-        <option value="hangar">Hangar</option>
-        <option value="airborne">Airborne</option>
-        <option value="malfunction">Malfunction</option>
-      </select>
+      <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select id="status" formControlName="status" required>
+          <mat-option value="hangar">Hangar</mat-option>
+          <mat-option value="airborne">Airborne</mat-option>
+          <mat-option value="malfunction">Malfunction</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
+
     <div>
-      <button type="submit" [disabled]="flightForm.invalid">Save Flight</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="flightForm.invalid">Save Flight</button>
     </div>
   </form>
-  
+</div>
