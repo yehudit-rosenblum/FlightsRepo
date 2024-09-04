@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class FlightSearchComponent {
   serchForm: FormGroup;
+
   constructor(private fb: FormBuilder) {
     this.serchForm = this.fb.group({
       flightNumber: [''],
@@ -21,6 +22,6 @@ export class FlightSearchComponent {
   }
 
   search() {
-debugger
+
   }
 }

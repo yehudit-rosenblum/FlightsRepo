@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FlightSearchComponent } from '../flight-search/flight-search.component';
 import { FlightListComponent } from '../flight-list/flight-list.component';
 import { FlightService } from '../flight.service';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FlightSearchComponent,FlightListComponent],
+  imports: [CommonModule, FlightSearchComponent,FlightListComponent, MatButtonModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

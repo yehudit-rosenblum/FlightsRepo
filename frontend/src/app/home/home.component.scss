@@ -1,0 +1,11 @@
+.button-add {
+    display: flex;
+    justify-content:right ; /* הכפתור יהיה מיושר שמאלה */
+    width: 100%;
+    margin-top: 16px; /* מוסיף מרווח בין הכפתור לקומפוננטה שמעליו */
+    
+}
+
+.button-add a {
+    margin-right: 133px; /* מאפשר לכפתור להתחיל באותו מיקום כמו שאר הקומפוננטות */
+  }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FlightService } from './flight.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  constructor(public flightService:FlightService){
+    this.flightService.connect();
+  }
   title = 'flight-management';
 }
