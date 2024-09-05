@@ -9,6 +9,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { RouterModule } from '@angular/router';
+
+
 @Component({
   selector: 'app-flight-form',
   templateUrl: './flight-form.component.html',
@@ -18,7 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSelectModule,
     MatButtonModule,
     MatDatepickerModule,
-    MatNativeDateModule],
+    MatNativeDateModule, RouterModule],
   standalone: true
 })
 export class FlightFormComponent implements OnInit {
@@ -57,7 +60,8 @@ export class FlightFormComponent implements OnInit {
       this.flightService.updateFlight(this.flightId, this.flightForm.value).subscribe(response => {
         // טיפול לאחר שמירת הטיסה המעודכנת
       });
-    } else {
+    } 
+    else {
       this.flightService.createFlight(this.flightForm.value).subscribe(response => {
         // טיפול לאחר יצירת הטיסה החדשה
       });

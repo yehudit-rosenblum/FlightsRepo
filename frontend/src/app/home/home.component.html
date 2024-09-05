@@ -1,9 +1,13 @@
-<div>
+<div class="first-row">
+
+    <div class="search">
     <app-flight-search></app-flight-search>
-    
-    <app-flight-list [flights]="flights"></app-flight-list>
+    </div>
 
+     <div class="button-add">
+    <a mat-raised-button color="primary" routerLink="/create-flight">Create New Flight</a>
+     </div>
 
-<div class="button-add">
-<a mat-raised-button color="primary" routerLink="/create-flight">Create New Flight</a>
 </div>
+
+<app-flight-list [flights]="flights"></app-flight-list>

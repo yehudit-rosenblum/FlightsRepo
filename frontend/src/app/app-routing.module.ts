@@ -10,7 +10,6 @@ const routes: Routes = [
   { path: 'create-flight', component: FlightFormComponent },
   { path: 'edit-flight/:id', component: FlightFormComponent }
 
-
 ];
 
 @NgModule({

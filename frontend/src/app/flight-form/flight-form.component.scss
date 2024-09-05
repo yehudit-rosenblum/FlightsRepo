@@ -1,11 +1,25 @@
-.centered-form {
+
+
+.button-back {
+   
+    display: flex;
+    justify-content:right ; /* הכפתור יהיה מיושר שמאלה */
+    width: 100%;
+    margin-top: 16px;
+    
+}
+.button-back a {
+    margin-right: 400px; /* מאפשר לכפתור להתחיל באותו מיקום כמו שאר הקומפוננטות */
+  }
+
+  .centered-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-   
 }
+
+
 h1 {
     width: 100%;
     text-align: center;

@@ -14,18 +14,20 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  flights: any[] = [];  // משתנה לאחסון רשימת הטיסות
+  flights: any[] = [];  
 
   
-  constructor(private flightService: FlightService) { }  // הזרקת השירות
+  constructor(private flightService: FlightService) { }  
 
   ngOnInit(): void {
-    this.loadFlights();  // קריאה לטעינת הטיסות עם העלאת הרכיב
+    debugger;
+    this.loadFlights();  
   }
 
   loadFlights(): void {
     this.flightService.getFlights().subscribe(data => {
-      this.flights = data;  // שמירת הנתונים שהתקבלו בשירות במשתנה
+      debugger;
+      this.flights = data;  
     });
   }
 }
