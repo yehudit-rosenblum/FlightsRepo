@@ -29,15 +29,15 @@ namespace BL
             return _mapper.Map<List<FlightDTO>>(result);
 
         }
-        public async Task<List<FlightDTO>> Add(FlightDTO flightDTO)
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<List<FlightDTO>> Add(FlightDTO flightDTO)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public async Task<List<FlightDTO>> Edit(FlightDTO flightDTO)
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<List<FlightDTO>> Edit(FlightDTO flightDTO)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
      
 

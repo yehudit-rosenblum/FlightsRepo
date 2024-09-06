@@ -13,6 +13,7 @@ namespace Entities
         public AirportDTO LandingAirport { get; set; }
         public AirportDTO TakeOffAirport { get; set; }
         public int Status { get; set; }
+  
         public string TakeOffTime { get; set; }
         public string LandingTime { get; set; }
     }

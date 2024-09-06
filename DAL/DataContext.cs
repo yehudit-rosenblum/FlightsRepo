@@ -20,7 +20,8 @@ namespace DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure entities if needed
+            
+               
         }
     }
 

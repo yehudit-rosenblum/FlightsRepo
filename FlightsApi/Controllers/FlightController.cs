@@ -2,12 +2,14 @@
 using Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlightsApi.Controllers
 {
-    [Route("api/[controller]")]
+
     [ApiController]
+    [Route("api/[controller]")]
     public class FlightController : ControllerBase
     {
         IFlightRepo _flightRepo;
@@ -15,23 +17,19 @@ namespace FlightsApi.Controllers
         {
             _flightRepo = flightRepo;
         }
-        [HttpGet]
+
+        [HttpGet("GetFlights")]
         public async Task<ActionResult<IEnumerable<FlightDTO>>> GetFlights()
         {
-            var flightDtos =_flightRepo.GetAll() ;
+            var flightDtos =await _flightRepo.GetAll();
             return Ok(flightDtos);
         }
 
-
-
-        public async Task<List<FlightDTO>> Add(FlightDTO flightDTO)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<FlightDTO>> Edit(FlightDTO flightDTO)
-        {
-            throw new NotImplementedException();
-        }
+       
+        //    public async Task<List<FlightDTO>> Edit(FlightDTO flightDTO)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
     }
 }
