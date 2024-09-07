@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, Subject } from 'rxjs';
 import { Flight } from './models/flight.model';
 import { FligthStatus } from './enums/fligth-status.enum';
@@ -34,9 +34,12 @@ export class FlightService {
   // }
 
   createFlight(flightData: Flight): Observable<Flight> {
-    debugger
     return this.http.post<Flight>(`${this.apiUrl}/Add`, flightData);
   }
+
+
+
+
   
   // פונקציה לעדכון טיסה קיימת
   updateFlight(id: string, flightData: any): Observable<any> {

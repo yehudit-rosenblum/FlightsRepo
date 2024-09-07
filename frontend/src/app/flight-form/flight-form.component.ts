@@ -33,6 +33,8 @@ export class FlightFormComponent implements OnInit {
   constructor( private fb: FormBuilder, private route: ActivatedRoute, private flightService:FlightService){
     this.flightForm = this.fb.group({
       flightNumber: ['', Validators.required],
+      takeOffAirport: ['', Validators.required],
+      landingAirport: ['', Validators.required],
       takeoffTime: ['', Validators.required],
       landingTime: ['', Validators.required],
       status: ['', Validators.required]

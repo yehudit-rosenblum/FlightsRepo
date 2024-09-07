@@ -2,6 +2,14 @@
   <a mat-raised-button color="primary" routerLink="/">back</a>
   </div>
 
+
+  <div class="title-container">
+    <h1 class="title" *ngIf="flightId; else addFlightTitle">Edit Flight {{flightId}}</h1>
+    <ng-template #addFlightTitle>
+      <h1 class="title">New Flight</h1>
+    </ng-template>
+  </div>
+
 <div>
   <!-- <h1>Edit Flight {{flightId}}</h1> -->
   
@@ -13,6 +21,26 @@
       </mat-form-field>
     </div>
 
+
+
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>takeOffAirport</mat-label>
+        <input matInput id="takeOffAirport" formControlName="takeOffAirport" required>
+      </mat-form-field>
+    </div>
+
+
+    
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>landingAirport</mat-label>
+        <input matInput id="landingAirport" formControlName="landingAirport" required>
+      </mat-form-field>
+    </div>
+
+
+    
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Takeoff Time</mat-label>

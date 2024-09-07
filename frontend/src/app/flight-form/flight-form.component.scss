@@ -1,13 +1,31 @@
 
 
-.button-back {
-   
+.button-back {  
     display: flex;
     justify-content:right ; /* הכפתור יהיה מיושר שמאלה */
     width: 100%;
     margin-top: 16px;
     
 }
+
+
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+
+  .title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #3f51b5; /* צבע כחול מותאם לסגנון Material Design */
+    text-align: center;
+  }
+  
+
+  
 .button-back a {
     margin-right: 400px; /* מאפשר לכפתור להתחיל באותו מיקום כמו שאר הקומפוננטות */
   }

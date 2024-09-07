@@ -26,7 +26,7 @@ namespace FlightsApi.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<ActionResult<IEnumerable<FlightDTO>>> Add(FlightDTO flightDto)
+        public async Task<ActionResult<FlightDTO>> Add([FromBody] FlightDTO flightDto)
         {
             await _flightRepo.Add(flightDto);
             return Ok(flightDto);
