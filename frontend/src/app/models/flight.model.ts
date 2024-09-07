@@ -4,7 +4,7 @@ export interface Flight {
     flightNumber: string;
     landingAirport: string;
     takeOffAirport: string;
-    status:FligthStatus;
-    templateUrlakeOffTime: string;
+    status: FligthStatus;
+    takeOffTime: string;
     landingTime: string;
 }
