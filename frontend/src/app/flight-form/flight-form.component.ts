@@ -28,6 +28,8 @@ export class FlightFormComponent implements OnInit {
   flightForm: FormGroup;
   flightId: string | null = null;
 
+  isSaved: boolean = false;  
+  
   constructor( private fb: FormBuilder, private route: ActivatedRoute, private flightService:FlightService){
     this.flightForm = this.fb.group({
       flightNumber: ['', Validators.required],
@@ -38,6 +40,7 @@ export class FlightFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isSaved=false;
     this.flightId = this.route.snapshot.paramMap.get('id');
     if (this.flightId) {
       this.loadFlightDetails(this.flightId);
@@ -56,15 +59,21 @@ export class FlightFormComponent implements OnInit {
   }
 
   saveFlight() {
+    debugger
+    this.isSaved=true;
     if (this.flightId) {
-      this.flightService.updateFlight(this.flightId, this.flightForm.value).subscribe(response => {
-        // טיפול לאחר שמירת הטיסה המעודכנת
+      this.flightService.updateFlight(this.flightId, this.flightForm.value).subscribe(
+        response => {
       });
     } 
     else {
       this.flightService.createFlight(this.flightForm.value).subscribe(response => {
-        // טיפול לאחר יצירת הטיסה החדשה
-      });
+          console.log('Flight added successfully', response);
+        },
+        (error) => {
+          console.error('Error adding flight:', error);
+        }
+      );
     }
   }
 }

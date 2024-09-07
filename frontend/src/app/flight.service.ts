@@ -10,7 +10,8 @@ import { FligthStatus } from './enums/fligth-status.enum';
 export class FlightService {
 
   flightSub=new Subject<Flight>();
-  private apiUrl = 'https://localhost:7294/api/Flight'; 
+  private apiUrl = 'https://localhost:44362/api/Flight'; 
+
   constructor(private http: HttpClient) { }
 
   // פונקציה לקבלת כל הטיסות
@@ -27,10 +28,16 @@ export class FlightService {
   }
 
   // פונקציה ליצירת טיסה חדשה
-  createFlight(flightData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/Add`, flightData);
-  }
+  // createFlight(flightData: any): Observable<any> {
+  //   debugger
+  //   return this.http.post(`${this.apiUrl}/Add`, flightData);
+  // }
 
+  createFlight(flightData: Flight): Observable<Flight> {
+    debugger
+    return this.http.post<Flight>(`${this.apiUrl}/Add`, flightData);
+  }
+  
   // פונקציה לעדכון טיסה קיימת
   updateFlight(id: string, flightData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, flightData);

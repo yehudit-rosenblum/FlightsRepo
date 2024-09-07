@@ -25,11 +25,15 @@ namespace FlightsApi.Controllers
             return Ok(flightDtos);
         }
 
-       
-        //    public async Task<List<FlightDTO>> Edit(FlightDTO flightDTO)
-        //    {
-        //        throw new NotImplementedException();
-        //    }
+        [HttpPost("Add")]
+        public async Task<ActionResult<FlightDTO>> Add(FlightDTO flightDto)
+        {
+          return await _flightRepo.Add(flightDto);
+            
+        }
+        //public async Task<FlightDTO> Edit(FlightDTO flightDTO)
+        //{
+        //    throw new NotImplementedException();
         //}
     }
 }

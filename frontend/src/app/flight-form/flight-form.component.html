@@ -39,7 +39,7 @@
     </div>
 
     <div>
-      <button mat-raised-button color="primary" type="submit" [disabled]="flightForm.invalid">Save Flight</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="flightForm.invalid || isSaved">Save Flight</button>
     </div>
   </form>
 </div>

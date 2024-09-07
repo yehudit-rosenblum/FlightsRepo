@@ -15,7 +15,19 @@ namespace BL
         {
             // Create mappings between Flight and FlightDto
             CreateMap<Flight, FlightDTO>();
-            CreateMap<FlightDTO, Flight>();
+            CreateMap<FlightDTO, Flight>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+
+            CreateMap<Airport, AirportDTO>();
+            CreateMap<AirportDTO, Airport>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));   // ודא ששדה ה-Name ממופה
+
         }
     }
 }
+
+
+ 
+
