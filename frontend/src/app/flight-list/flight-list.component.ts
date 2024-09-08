@@ -21,6 +21,7 @@ export class FlightListComponent {
   displayedColumns: string[] = ['flightNumber', 'takeOffAirport', 'landingAirport', 'status', 'takeOffTime', 'landingTime', 'edit'];
 
   editFlight(flight: Flight) {
+    debugger
     this.route.navigateByUrl('/edit-flight/' + flight.flightNumber)
   }
 }

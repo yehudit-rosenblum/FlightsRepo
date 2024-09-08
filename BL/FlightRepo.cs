@@ -65,25 +65,29 @@ namespace BL
 
 
 
+
+
         public async Task<FlightDTO> editFlight(FlightDTO flightDTO)
         {
             // מציאת הטיסה הקיימת על פי ה-Id
-            var existingFlight = await _context.Flights.FindAsync(flightDTO.Id);
+            var existingFlight = await _context.Flights.Where(f=>f.FlightNumber==flightDTO.FlightNumber).FirstAsync();
 
             if (existingFlight == null)
             {
-                // מיפוי הנתונים החדשים מה-DTO לאובייקט הטיסה הקיים
-                _mapper.Map(flightDTO, existingFlight);
-
-                // עדכון הנתונים בבסיס הנתונים
-                _context.Flights.Update(existingFlight);
-                await _context.SaveChangesAsync();
-
-                // החזרת הטיסה המעודכנת כ-DTO
-                return _mapper.Map<Flight, FlightDTO>(existingFlight);
+                // במקרה שהטיסה לא נמצאה
+                throw new Exception("Flight not found");
             }
-        }
 
+            // מיפוי הנתונים החדשים מה-DTO לאובייקט הטיסה הקיים
+            _mapper.Map(flightDTO, existingFlight);
+
+            // עדכון הנתונים בבסיס הנתונים
+            _context.Flights.Update(existingFlight);
+            await _context.SaveChangesAsync();
+
+            // החזרת ה-DTO המעודכן
+            return _mapper.Map<Flight, FlightDTO>(existingFlight);
+        }
 
     }
 }

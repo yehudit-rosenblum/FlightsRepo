@@ -35,10 +35,12 @@ namespace FlightsApi.Controllers
         }
 
 
+       
+
         [HttpPut("editFlight/{id}")]
-        public async Task<ActionResult<FlightDTO>> editFlight(int id, [FromBody] FlightDTO flightDto)
+        public async Task<ActionResult<FlightDTO>> editFlight(string id, [FromBody] FlightDTO flightDto)
         {
-            if (id != flightDto.Id)
+            if (id != flightDto.FlightNumber)
             {
                 return BadRequest("Flight ID mismatch");
             }

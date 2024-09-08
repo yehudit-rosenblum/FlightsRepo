@@ -14,6 +14,7 @@ export class FlightService {
 
   constructor(private http: HttpClient) { }
 
+  
   // פונקציה לקבלת כל הטיסות
   getFlights(): Observable<Flight[]> {
     return this.http.get<Flight[]>(`${this.apiUrl}/getFlights`);
@@ -55,8 +56,9 @@ export class FlightService {
 
 
   // פונקציה לעדכון טיסה קיימת
-  updateFlight(id: string, flightData: any): Observable<any> {
+  updateFlight(id: string, flightData: Flight): Observable<any> {
     debugger;
+    flightData.flightNumber=id;
     return this.http.put(`${this.apiUrl}/editFlight/${id}`, flightData);
   }
 

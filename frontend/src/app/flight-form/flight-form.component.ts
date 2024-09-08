@@ -65,7 +65,9 @@ export class FlightFormComponent implements OnInit {
     this.isSaved=false;
     this.flightId = this.route.snapshot.paramMap.get('id');
     if (this.flightId) {
-      this.loadFlightDetails(this.flightId);
+        this.loadFlightDetails(this.flightId);
+        this.flightForm.get('flightNumber')?.clearValidators();
+        this.flightForm.get('flightNumber')?.updateValueAndValidity();
     }
   }
   
