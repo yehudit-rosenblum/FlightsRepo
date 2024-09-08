@@ -41,29 +41,65 @@ namespace BL
 
 
 
-        public async Task<FlightDTO> addFlight(FlightDTO flightDTO)
-        {
-            try
-            {
+        //public async Task<FlightDTO> addFlight(FlightDTO flightDTO)
+        //{
+        //    try
+        //    {
                 
-                Flight newFlight = _mapper.Map<FlightDTO, Flight>(flightDTO);
-                await _context.Flights.AddAsync(newFlight);
-                await _context.SaveChangesAsync();
-                return _mapper.Map<Flight, FlightDTO>(newFlight);
-            }
-            catch (DbUpdateException ex)
-            {
-                Console.WriteLine("Error occurred while saving changes: " + ex.InnerException?.Message);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("General error: " + ex.Message);
-                throw;
-            }
+        //        Flight newFlight = _mapper.Map<FlightDTO, Flight>(flightDTO);
+        //        await _context.Flights.AddAsync(newFlight);
+        //        await _context.SaveChangesAsync();
+        //        return _mapper.Map<Flight, FlightDTO>(newFlight);
+        //    }
+        //    catch (DbUpdateException ex)
+        //    {
+        //        Console.WriteLine("Error occurred while saving changes: " + ex.InnerException?.Message);
+        //        throw;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("General error: " + ex.Message);
+        //        throw;
+        //    }
+        //}
+
+
+        public async Task<FlightDTO> addFlight(FlightDTO flightDTO)
+{
+    try
+    {
+        // אחזר את שדות התעופה הקיימים מה-DB לפי מזהה
+        var takeOffAirport = await _context.Airports
+            .FirstOrDefaultAsync(a => a.Id == flightDTO.TakeOffAirport.Id);
+        var landingAirport = await _context.Airports
+            .FirstOrDefaultAsync(a => a.Id == flightDTO.LandingAirport.Id);
+
+        if (takeOffAirport == null || landingAirport == null)
+        {
+            throw new Exception("One or both airports not found");
         }
 
+        // יצירת ישות טיסה חדשה עם שדות התעופה הקיימים
+        Flight newFlight = _mapper.Map<FlightDTO, Flight>(flightDTO);
+        newFlight.TakeOffAirport = takeOffAirport;
+        newFlight.LandingAirport = landingAirport;
 
+        await _context.Flights.AddAsync(newFlight);
+        await _context.SaveChangesAsync();
+
+        return _mapper.Map<Flight, FlightDTO>(newFlight);
+    }
+    catch (DbUpdateException ex)
+    {
+        Console.WriteLine("Error occurred while saving changes: " + ex.InnerException?.Message);
+        throw;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("General error: " + ex.Message);
+        throw;
+    }
+}
 
 
 
