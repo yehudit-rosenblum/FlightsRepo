@@ -5,6 +5,8 @@ import { FlightListComponent } from '../flight-list/flight-list.component';
 import { FlightService } from '../flight.service';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { FlightSearchParams } from '../models/flightSearchParams';
+import { Flight } from '../models/flight.model';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +16,8 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  flights: any[] = [];  
+  flights: Flight[] = [];  
+  filteredFlights: Flight[] = [];  
 
   
   constructor(private flightService: FlightService) { }  
@@ -24,10 +27,22 @@ export class HomeComponent {
     this.loadFlights();  
   }
 
+  search(params: FlightSearchParams){
+    debugger
+    this.filteredFlights = [...this.flights];
+    if(params.flightNumber && params.flightNumber != '')
+    this.filteredFlights = this.filteredFlights.filter(f => f.flightNumber.startsWith(params.flightNumber));
+    if(params.takeoff && params.takeoff != '')
+      this.filteredFlights = this.filteredFlights.filter(f => f.takeOffAirport.name.startsWith(params.takeoff) || f.landingAirport.name.startsWith(params.takeoff));
+
+  }
+
   loadFlights(): void {
     this.flightService.getFlights().subscribe(data => {
       debugger;
       this.flights = data;  
+      this.filteredFlights = [...data];
     });
   }
 }
+
