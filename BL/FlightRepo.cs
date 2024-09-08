@@ -41,27 +41,7 @@ namespace BL
 
 
 
-        //public async Task<FlightDTO> addFlight(FlightDTO flightDTO)
-        //{
-        //    try
-        //    {
-                
-        //        Flight newFlight = _mapper.Map<FlightDTO, Flight>(flightDTO);
-        //        await _context.Flights.AddAsync(newFlight);
-        //        await _context.SaveChangesAsync();
-        //        return _mapper.Map<Flight, FlightDTO>(newFlight);
-        //    }
-        //    catch (DbUpdateException ex)
-        //    {
-        //        Console.WriteLine("Error occurred while saving changes: " + ex.InnerException?.Message);
-        //        throw;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("General error: " + ex.Message);
-        //        throw;
-        //    }
-        //}
+        
 
 
         public async Task<FlightDTO> addFlight(FlightDTO flightDTO)
@@ -140,27 +120,7 @@ namespace BL
         }
 
 
-        //public async Task<FlightDTO> editFlight(FlightDTO flightDTO)
-        //{
-        //    // מציאת הטיסה הקיימת על פי ה-Id
-        //    var existingFlight = await _context.Flights.Where(f=>f.FlightNumber==flightDTO.FlightNumber).FirstAsync();
-
-        //    if (existingFlight == null)
-        //    {
-        //        // במקרה שהטיסה לא נמצאה
-        //        throw new Exception("Flight not found");
-        //    }
-
-        //    // מיפוי הנתונים החדשים מה-DTO לאובייקט הטיסה הקיים
-        //    _mapper.Map(flightDTO, existingFlight);
-
-        //    // עדכון הנתונים בבסיס הנתונים
-        //    _context.Flights.Update(existingFlight);
-        //    await _context.SaveChangesAsync();
-
-        //    // החזרת ה-DTO המעודכן
-        //    return _mapper.Map<Flight, FlightDTO>(existingFlight);
-        //}
+        
 
     }
 }
