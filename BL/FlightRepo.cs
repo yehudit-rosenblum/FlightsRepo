@@ -25,7 +25,7 @@ namespace BL
 
         public async Task<List<FlightDTO>> getFlights()
         {
-            var result = await _context.Flights.Include(f => f.LandingAirport)
+            var result = await _context.Flights.AsNoTracking().Include(f => f.LandingAirport)
                                                .Include(f => f.TakeOffAirport)
                                                .ToListAsync();
             return _mapper.Map<List<FlightDTO>>(result);
@@ -33,7 +33,7 @@ namespace BL
 
         public async Task<FlightDTO> getFlightById(string id)
         {
-            var result = await _context.Flights.Include(f => f.LandingAirport)
+            var result = await _context.Flights.AsNoTracking().Include(f => f.LandingAirport)
                                                .Include(f => f.TakeOffAirport)
                                                .Where(f => f.FlightNumber == id)
                                                .FirstOrDefaultAsync();
@@ -84,85 +84,12 @@ namespace BL
             }
         }
 
-        //        public async Task<FlightDTO> addFlight(FlightDTO flightDTO)
-        //{
-        //    try
-        //    {
-        //        // אחזר את שדות התעופה הקיימים מה-DB לפי מזהה
-        //        var takeOffAirport = await _context.Airports
-        //            .FirstOrDefaultAsync(a => a.Id == flightDTO.TakeOffAirport.Id);
-        //        var landingAirport = await _context.Airports
-        //            .FirstOrDefaultAsync(a => a.Id == flightDTO.LandingAirport.Id);
-
-        //        if (takeOffAirport == null || landingAirport == null)
-        //        {
-        //            throw new Exception("One or both airports not found");
-        //        }
-
-        //        // יצירת ישות טיסה חדשה עם שדות התעופה הקיימים
-        //        Flight newFlight = _mapper.Map<FlightDTO, Flight>(flightDTO);
-        //        newFlight.TakeOffAirport = takeOffAirport;
-        //        newFlight.LandingAirport = landingAirport;
-
-        //        await _context.Flights.AddAsync(newFlight);
-        //        await _context.SaveChangesAsync();
-
-        //        return _mapper.Map<Flight, FlightDTO>(newFlight);
-        //    }
-        //    catch (DbUpdateException ex)
-        //    {
-        //        Console.WriteLine("Error occurred while saving changes: " + ex.InnerException?.Message);
-        //        throw;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("General error: " + ex.Message);
-        //        throw;
-        //    }
-        //}
-
-        //public async Task<FlightDTO> editFlight(FlightDTO flightDTO)
-        //{
-        //    // מציאת הטיסה הקיימת על פי מספר הטיסה
-        //    var existingFlight = await _context.Flights
-        //        .Include(f => f.LandingAirport)
-        //        .Include(f => f.TakeOffAirport)
-        //        .FirstOrDefaultAsync(f => f.FlightNumber == flightDTO.FlightNumber);
-
-        //    if (existingFlight == null)
-        //    {
-        //        throw new Exception("Flight not found");
-        //    }
-
-        //    // אחזר את שדות התעופה הקיימים מה-DB לפי מזהה
-        //    var takeOffAirport = await _context.Airports
-        //        .FirstOrDefaultAsync(a => a.Id == flightDTO.TakeOffAirport.Id);
-        //    var landingAirport = await _context.Airports
-        //        .FirstOrDefaultAsync(a => a.Id == flightDTO.LandingAirport.Id);
-
-        //    if (takeOffAirport == null || landingAirport == null)
-        //    {
-        //        throw new Exception("One or both airports not found");
-        //    }
-
-        //    // מיפוי הנתונים החדשים לטיסה הקיימת
-        //    _mapper.Map(flightDTO, existingFlight);
-
-        //    // שימוש בשדות התעופה הקיימים
-        //    existingFlight.TakeOffAirport = takeOffAirport;
-        //    existingFlight.LandingAirport = landingAirport;
-
-        //    // עדכון הנתונים בבסיס הנתונים
-        //    _context.Flights.Update(existingFlight);
-        //    await _context.SaveChangesAsync();
-
-        //    return _mapper.Map<Flight, FlightDTO>(existingFlight);
-        //}
+      
 
 
         public async Task<FlightDTO> editFlight(FlightDTO flightDTO)
         {
-            // מציאת הטיסה הקיימת על פי מספר הטיסה
+            // Find the existing flight by flight number
             var existingFlight = await _context.Flights
                 .Include(f => f.LandingAirport)
                 .Include(f => f.TakeOffAirport)
@@ -173,23 +100,35 @@ namespace BL
                 throw new Exception("Flight not found");
             }
 
-            // מיפוי הנתונים החדשים לטיסה הקיימת
+            // Map the new data to the existing flight
             _mapper.Map(flightDTO, existingFlight);
 
-            // שימוש במזהי שדות התעופה הקיימים
-            existingFlight.TakeOffAirport = new Airport { Id = flightDTO.TakeOffAirport.Id };
-            existingFlight.LandingAirport = new Airport { Id = flightDTO.LandingAirport.Id };
+            // Only update the airports if they have changed
+            if (existingFlight.TakeOffAirport.Id != flightDTO.TakeOffAirport.Id)
+            {
+                var takeOffAirport = await _context.Airports.FindAsync(flightDTO.TakeOffAirport.Id);
+                if (takeOffAirport != null)
+                {
+                    existingFlight.TakeOffAirport = takeOffAirport;
+                }
+            }
 
-            // הגדרת שדות התעופה כ-Unchanged כדי לא לעדכן אותם
-            _context.Entry(existingFlight.TakeOffAirport).State = EntityState.Unchanged;
-            _context.Entry(existingFlight.LandingAirport).State = EntityState.Unchanged;
+            if (existingFlight.LandingAirport.Id != flightDTO.LandingAirport.Id)
+            {
+                var landingAirport = await _context.Airports.FindAsync(flightDTO.LandingAirport.Id);
+                if (landingAirport != null)
+                {
+                    existingFlight.LandingAirport = landingAirport;
+                }
+            }
 
-            // עדכון הנתונים בבסיס הנתונים
+            // Update the flight in the database
             _context.Flights.Update(existingFlight);
             await _context.SaveChangesAsync();
 
             return _mapper.Map<Flight, FlightDTO>(existingFlight);
         }
+
 
     }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +10,8 @@ import { FlightSearchParams } from '../models/flightSearchParams';
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.scss'],
   imports: [FormsModule,ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlightSearchComponent {
   serchForm: FormGroup;

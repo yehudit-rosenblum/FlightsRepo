@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +12,8 @@ import { FligthStatus } from '../enums/fligth-status.enum';
   styleUrls: ['./flight-list.component.scss'],
   imports: [CommonModule, MatTableModule,
     MatButtonModule],
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlightListComponent {
 FligthStatus: any;

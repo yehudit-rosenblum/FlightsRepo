@@ -137,7 +137,7 @@
 //     return airport ? airport.name : '';
 //   }
 // }
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FlightService } from '../flight.service';
@@ -151,7 +151,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Airport, Flight } from '../models/flight.model';
-import { map, Observable, startWith } from 'rxjs';
+import { map, Observable, startWith, Subject, takeUntil, takeWhile } from 'rxjs';
 
 @Component({
   selector: 'app-flight-form',
@@ -173,13 +173,14 @@ import { map, Observable, startWith } from 'rxjs';
   ],
   standalone: true
 })
-export class FlightFormComponent implements OnInit {
+export class FlightFormComponent implements OnInit , OnDestroy {
   flightForm: FormGroup;
   flightId: string | null = null;
   airports: Airport[] = [];
   isSaved: boolean = false;
   filteredAirports$: Observable<Airport[]> | undefined = new Observable();
   landFilteredAirports$: Observable<Airport[]> | undefined = new Observable();
+  destroy$ = new Subject<void>();
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private flightService: FlightService) {
     this.flightForm = this.fb.group({
@@ -197,7 +198,7 @@ export class FlightFormComponent implements OnInit {
     );
 
     // עדכון שדה הנחיתה כדי לוודא שהשדה שנבחר בהמראה לא יופיע כאן
-    this.flightForm.get('takeOffAirport')?.valueChanges.subscribe((selectedAirport: Airport | null) => {
+    this.flightForm.get('takeOffAirport')?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedAirport: Airport | null) => {
       if (selectedAirport && selectedAirport.name) {
         this.landFilteredAirports$ = this.filteredAirports$?.pipe(
           map(airports => airports.filter(airport => airport.name !== selectedAirport.name))
@@ -281,5 +282,11 @@ export class FlightFormComponent implements OnInit {
 
   displayAirport(airport: Airport): string {
     return airport ? airport.name : '';
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+
   }
 }

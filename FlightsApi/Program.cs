@@ -1,6 +1,7 @@
 using BL;
 using BL.Interfaces;
 using DAL;
+using FlightsApi.Middleware;
 using Microsoft.EntityFrameworkCore;
 using System.Net.WebSockets;
 
@@ -37,34 +38,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-//var webSocketOptions = new WebSocketOptions()
-//{
-//    KeepAliveInterval = TimeSpan.FromMinutes(2)
-//};
-//app.UseWebSockets(webSocketOptions);
 
-// WebSocket endpoint
-//app.Use(async (context, next) =>
-//{
-//    if (context.Request.Path == "/ws")
-//    {
-//        //if (context.WebSockets.IsWebSocketRequest)
-//        //{
-//        //    var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-//        //    await Echo(context, webSocket); // Echo or handle real-time data here
-//        //}
-//        //else
-//       // {
-//            context.Response.StatusCode = 400;
-//      //  }
-//    }
-//    else
-//    {
-//        await next();
-//    }
-//});
 
-app.UseCors("AllowAll"); 
+app.UseCors("AllowAll");
+
+app.UseWebSockets();
+
+// Add your WebSocket middleware here
+app.UseMiddleware<WebSocketMiddleware>();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
@@ -75,14 +57,3 @@ app.MapControllers();
 
 app.Run();
 
-//async Task Echo(HttpContext context, WebSocket webSocket)
-//{
-//    var buffer = new byte[1024 * 4];
-//    WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-//    while (!result.CloseStatus.HasValue)
-//    {
-//        await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
-//        result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-//    }
-//    await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
-//}

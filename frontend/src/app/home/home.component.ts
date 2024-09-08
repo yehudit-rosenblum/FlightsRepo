@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlightSearchComponent } from '../flight-search/flight-search.component';
 import { FlightListComponent } from '../flight-list/flight-list.component';
@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { FlightSearchParams } from '../models/flightSearchParams';
 import { Flight } from '../models/flight.model';
+import { FlightUpdateService } from '../flightUpdate.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -15,16 +17,23 @@ import { Flight } from '../models/flight.model';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnDestroy {
   flights: Flight[] = [];  
   filteredFlights: Flight[] = [];  
+  searchParams: FlightSearchParams  = {flightNumber: '' , takeoff: ''};
+  destroy$ = new Subject<void>();
 
   
-  constructor(private flightService: FlightService) { }  
+  constructor(private flightService: FlightService, private flightUpdateService: FlightUpdateService) { }  
 
   ngOnInit(): void {
     debugger;
     this.loadFlights();  
+    this.flightUpdateService.connect().pipe(takeUntil(this.destroy$)).subscribe(update => {
+      debugger;
+      this.flights = update;  
+      this.search(this.searchParams!);
+    });
   }
 
   search(params: FlightSearchParams){
@@ -43,6 +52,13 @@ export class HomeComponent {
       this.flights = data;  
       this.filteredFlights = [...data];
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    this.flightUpdateService.disconnect();
   }
 }
 
