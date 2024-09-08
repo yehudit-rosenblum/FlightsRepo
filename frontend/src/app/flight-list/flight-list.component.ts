@@ -15,6 +15,7 @@ import { FligthStatus } from '../enums/fligth-status.enum';
   standalone: true
 })
 export class FlightListComponent {
+FligthStatus: any;
   constructor(private route: Router) {
 
   }

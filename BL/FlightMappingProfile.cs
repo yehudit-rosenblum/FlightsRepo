@@ -16,8 +16,8 @@ namespace BL
            
             CreateMap<Flight, FlightDTO>();
             CreateMap<FlightDTO, Flight>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.Status , );
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+               
 
 
             CreateMap<Airport, AirportDTO>();

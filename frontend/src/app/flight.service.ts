@@ -28,7 +28,7 @@ export class FlightService {
 
   // פונקציה לקבלת טיסה לפי מזהה
   getFlightById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+    return this.http.get(`${this.apiUrl}/getFlightById?id=${id}`);
   }
 
 

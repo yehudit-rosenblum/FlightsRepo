@@ -15,5 +15,7 @@ namespace BL.Interfaces
         public Task<FlightDTO> editFlight(FlightDTO flightDTO);
 
         public Task<List<AirportDTO>> getAirPorts();
+
+        public  Task<FlightDTO> getFlightById(string id);
     }
 }

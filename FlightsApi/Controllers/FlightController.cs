@@ -25,6 +25,13 @@ namespace FlightsApi.Controllers
             return Ok(flightDtos);
         }
 
+        [HttpGet("getFlightById")]
+        public async Task<ActionResult<IEnumerable<FlightDTO>>> getFlightById(string id)
+        {
+            var flightDtos = await _flightRepo.getFlightById(id);
+            return Ok(flightDtos);
+        }
+
         [HttpPost("addFlight")]
         public async Task<ActionResult<FlightDTO>> addFlight([FromBody] FlightDTO flightDto)
         {

@@ -1,5 +1,5 @@
 export enum FligthStatus {
-    hanger = 1,
-    airborne = 2,
-    malfunction = 3
+    hanger = 0,
+    airborne = 1,
+    malfunction =2
 }

@@ -150,7 +150,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { Airport } from '../models/flight.model';
+import { Airport, Flight } from '../models/flight.model';
 import { map, Observable, startWith } from 'rxjs';
 
 @Component({
@@ -209,6 +209,7 @@ export class FlightFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger;
     // מקבל את כל שדות התעופה
     this.flightService.getAirPorts().subscribe(
       res => this.airports = res
@@ -228,11 +229,14 @@ export class FlightFormComponent implements OnInit {
   }
 
   loadFlightDetails(id: string) {
-    this.flightService.getFlightById(id).subscribe(data => {
+    this.flightService.getFlightById(id).subscribe((data: Flight) => {
       this.flightForm.patchValue({
         flightNumber: data.flightNumber,
-        takeoffTime: data.takeoffTime,
+        takeoffTime: data.takeOffTime,
         landingTime: data.landingTime,
+        takeOffAirport: data.takeOffAirport,
+        landingAirport: data.landingAirport,
+
         status: data.status
       });
     });
