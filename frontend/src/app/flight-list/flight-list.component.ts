@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { Flight } from '../models/flight.model';
 import { Router } from '@angular/router';
+import { FligthStatus } from '../enums/fligth-status.enum';
 
 @Component({
   selector: 'app-flight-list',
@@ -24,4 +25,16 @@ export class FlightListComponent {
     debugger
     this.route.navigateByUrl('/edit-flight/' + flight.flightNumber)
   }
+  getStatusLabel(status: FligthStatus): string {
+    switch (status) {
+      case FligthStatus.hanger:
+        return 'Hanger';
+      case FligthStatus.airborne:
+        return 'Airborne';
+      case FligthStatus.malfunction:
+        return 'Malfunction';
+      default:
+        return 'Unknown';
+    }
+}
 }

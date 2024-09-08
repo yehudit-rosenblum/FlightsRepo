@@ -23,5 +23,6 @@ export class FlightSearchComponent {
 
   search() {
 
+    
   }
 }
