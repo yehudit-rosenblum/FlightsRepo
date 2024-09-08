@@ -101,29 +101,66 @@ namespace BL
     }
 }
 
-
-
         public async Task<FlightDTO> editFlight(FlightDTO flightDTO)
         {
-            // מציאת הטיסה הקיימת על פי ה-Id
-            var existingFlight = await _context.Flights.Where(f=>f.FlightNumber==flightDTO.FlightNumber).FirstAsync();
+            // מציאת הטיסה הקיימת על פי מספר הטיסה
+            var existingFlight = await _context.Flights
+                .Include(f => f.LandingAirport)
+                .Include(f => f.TakeOffAirport)
+                .FirstOrDefaultAsync(f => f.FlightNumber == flightDTO.FlightNumber);
 
             if (existingFlight == null)
             {
-                // במקרה שהטיסה לא נמצאה
                 throw new Exception("Flight not found");
             }
 
-            // מיפוי הנתונים החדשים מה-DTO לאובייקט הטיסה הקיים
+            // אחזר את שדות התעופה הקיימים מה-DB לפי מזהה
+            var takeOffAirport = await _context.Airports
+                .FirstOrDefaultAsync(a => a.Id == flightDTO.TakeOffAirport.Id);
+            var landingAirport = await _context.Airports
+                .FirstOrDefaultAsync(a => a.Id == flightDTO.LandingAirport.Id);
+
+            if (takeOffAirport == null || landingAirport == null)
+            {
+                throw new Exception("One or both airports not found");
+            }
+
+            // מיפוי הנתונים החדשים לטיסה הקיימת
             _mapper.Map(flightDTO, existingFlight);
+
+            // שימוש בשדות התעופה הקיימים
+            existingFlight.TakeOffAirport = takeOffAirport;
+            existingFlight.LandingAirport = landingAirport;
 
             // עדכון הנתונים בבסיס הנתונים
             _context.Flights.Update(existingFlight);
             await _context.SaveChangesAsync();
 
-            // החזרת ה-DTO המעודכן
             return _mapper.Map<Flight, FlightDTO>(existingFlight);
         }
+
+
+        //public async Task<FlightDTO> editFlight(FlightDTO flightDTO)
+        //{
+        //    // מציאת הטיסה הקיימת על פי ה-Id
+        //    var existingFlight = await _context.Flights.Where(f=>f.FlightNumber==flightDTO.FlightNumber).FirstAsync();
+
+        //    if (existingFlight == null)
+        //    {
+        //        // במקרה שהטיסה לא נמצאה
+        //        throw new Exception("Flight not found");
+        //    }
+
+        //    // מיפוי הנתונים החדשים מה-DTO לאובייקט הטיסה הקיים
+        //    _mapper.Map(flightDTO, existingFlight);
+
+        //    // עדכון הנתונים בבסיס הנתונים
+        //    _context.Flights.Update(existingFlight);
+        //    await _context.SaveChangesAsync();
+
+        //    // החזרת ה-DTO המעודכן
+        //    return _mapper.Map<Flight, FlightDTO>(existingFlight);
+        //}
 
     }
 }
