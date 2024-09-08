@@ -1,0 +1,54 @@
+<div class="container">
+<table mat-table [dataSource]="flights" class="mat-elevation-z8">
+
+  <!-- Flight Number Column -->
+  <ng-container matColumnDef="flightNumber">
+    <th mat-header-cell *matHeaderCellDef> Flight Number </th>
+    <td mat-cell *matCellDef="let flight"> {{flight.flightNumber}} </td>
+  </ng-container>
+
+  <!-- Take Off Airport Column -->
+  <ng-container matColumnDef="takeOffAirport">
+    <th mat-header-cell *matHeaderCellDef> TakeOff Airport </th>
+    <td mat-cell *matCellDef="let flight"> {{flight.takeOffAirport.name}} </td>
+  </ng-container>
+
+  <!-- Landing Airport Column -->
+  <ng-container matColumnDef="landingAirport">
+    <th mat-header-cell *matHeaderCellDef> Landing Airport </th>
+    <td mat-cell *matCellDef="let flight"> {{flight.landingAirport.name}} </td>
+  </ng-container>
+
+  <!-- Status Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td [ngClass]="{'color': flight.status === 2}" mat-cell *matCellDef="let flight">  {{ getStatusLabel(flight.status) }} </td>
+  </ng-container>
+
+  
+
+  <!-- Take Off Time Column -->
+  <ng-container matColumnDef="takeOffTime">
+    <th mat-header-cell *matHeaderCellDef> Take Off Time </th>
+    <td mat-cell *matCellDef="let flight"> {{flight.takeOffTime}} </td>
+  </ng-container>
+
+  <!-- Landing Time Column -->
+  <ng-container matColumnDef="landingTime">
+    <th mat-header-cell *matHeaderCellDef> Landing Time </th>
+    <td mat-cell *matCellDef="let flight"> {{flight.landingTime}} </td>
+  </ng-container>
+
+  <!-- View Button Column -->
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let flight">
+      <button mat-button (click)="editFlight(flight)">edit</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+</table>
+</div>

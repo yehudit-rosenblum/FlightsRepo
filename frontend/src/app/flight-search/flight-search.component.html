@@ -1,0 +1,21 @@
+<div class="container" >
+    <form [formGroup]="serchForm" (ngSubmit)="search()"  class="search-form">
+
+        <!-- אינפוט 1 -->
+        <mat-form-field class="input-field">
+            <mat-label>Flight number</mat-label>
+            <input matInput formControlName="flightNumber" placeholder="Flight number">
+        </mat-form-field>
+
+       <!-- אינפוט 2 -->
+        <mat-form-field class="input-field">
+            <mat-label>TakeoffAirport</mat-label>
+            <input matInput formControlName="takeoff" placeholder="Takeoff">
+        </mat-form-field>
+
+        <!-- הכפתור -->
+        <div class="example-button-row">
+            <button mat-stroked-button type="submit">Search</button>
+        </div>
+    </form>
+</div>
