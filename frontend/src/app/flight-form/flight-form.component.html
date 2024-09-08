@@ -1,18 +1,18 @@
 <div class="button-back">
   <a mat-raised-button color="primary" routerLink="/">back</a>
-  </div>
+</div>
 
 
-  <div class="title-container">
-    <h1 class="title" *ngIf="flightId; else addFlightTitle">Edit Flight {{flightId}}</h1>
-    <ng-template #addFlightTitle>
-      <h1 class="title">New Flight</h1>
-    </ng-template>
-  </div>
+<div class="title-container">
+  <h1 class="title" *ngIf="flightId; else addFlightTitle">Edit Flight {{flightId}}</h1>
+  <ng-template #addFlightTitle>
+    <h1 class="title">New Flight</h1>
+  </ng-template>
+</div>
 
 <div>
   <!-- <h1>Edit Flight {{flightId}}</h1> -->
-  
+
   <form [formGroup]="flightForm" class="centered-form" (ngSubmit)="saveFlight()">
     <div>
       <mat-form-field appearance="fill">
@@ -23,24 +23,58 @@
 
 
 
+   
     <div>
       <mat-form-field appearance="fill">
         <mat-label>takeOffAirport</mat-label>
-        <input matInput id="takeOffAirport" formControlName="takeOffAirport" required>
+        <input type="text" placeholder="takeOffAirport" matInput
+           [formControl]="takeOffReportsControl"
+          [matAutocomplete]="autoTakeOff"
+          >
+        <mat-autocomplete autoActiveFirstOption #autoTakeOff="matAutocomplete" [displayWith]="displayAirport">
+          <mat-option *ngFor="let option of filteredAirports$ | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
-
-
     
+    
+
+
+
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Take Off Airport</mat-label>
+    <input type="text" placeholder="Select Take Off Airport" matInput
+       [formControl]="takeOffReportsControl"
+       [matAutocomplete]="autoTakeOff">
+    
+    <mat-autocomplete autoActiveFirstOption #autoTakeOff="matAutocomplete" [displayWith]="displayAirport">
+      <mat-option *ngFor="let option of filteredAirports$ | async" [value]="option">
+        {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+
+
     <div>
       <mat-form-field appearance="fill">
         <mat-label>landingAirport</mat-label>
-        <input matInput id="landingAirport" formControlName="landingAirport" required>
+        <input type="text" placeholder="landingAirport" matInput
+           [formControl]="landingReportsControl"
+          [matAutocomplete]="autoLand"
+          >
+        <mat-autocomplete autoActiveFirstOption #autoLand="matAutocomplete" [displayWith]="displayAirport">
+          <mat-option *ngFor="let option of landFilteredAirports$ | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
+  
 
-
-    
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Takeoff Time</mat-label>
@@ -59,16 +93,16 @@
       <mat-form-field appearance="fill">
         <mat-label>Status</mat-label>
         <mat-select id="status" formControlName="status" required>
-          <mat-option value="hangar">Hangar</mat-option>
-          <mat-option value="airborne">Airborne</mat-option>
-          <mat-option value="malfunction">Malfunction</mat-option>
+          <mat-option [value]="0">Hangar</mat-option>
+          <mat-option [value]="1">Airborne</mat-option>
+          <mat-option [value]="2">Malfunction</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-
+    
     <div>
-      <button mat-raised-button color="primary" type="submit" [disabled]="flightForm.invalid || isSaved">Save Flight</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="flightForm.invalid || isSaved">Save
+        Flight</button>
     </div>
   </form>
 </div>
-

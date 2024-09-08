@@ -23,14 +23,7 @@ namespace BL
             _mapper = mapper;
         }
 
-        //public async Task<List<FlightDTO>> GetAll()
-        //{
-        //    var result = await _context.Flights.ToListAsync();
-        //    return _mapper.Map<List<FlightDTO>>(result);
-
-        //}
-
-        public async Task<List<FlightDTO>> GetAll()
+        public async Task<List<FlightDTO>> getFlights()
         {
             var result = await _context.Flights.Include(f => f.LandingAirport)
                                                .Include(f => f.TakeOffAirport)
@@ -39,25 +32,16 @@ namespace BL
         }
 
 
-
-        //public async Task<FlightDTO> Add(FlightDTO flightDTO)
-        //{
-        //    Flight newFlight = _mapper.Map<FlightDTO, Flight>(flightDTO);
-        //    await _context.Flights.AddAsync(newFlight);
-        //     _context.SaveChangesAsync();
-
-        //    Flight f = _context.Flights.FirstOrDefault(f =>
-        //    f.FlightNumber == flightDTO.FlightNumber &&
-        //    f.LandingAirport == newFlight.LandingAirport &&
-        //    f.TakeOffAirport == newFlight.TakeOffAirport &&
-        //    f.Status == newFlight.Status &&
-        //    f.TakeOffTime == flightDTO.TakeOffTime &&
-        //    f.LandingTime == flightDTO.LandingTime);
-        //    return _mapper.Map<Flight, FlightDTO>(f);
-        //}
+        public async Task<List<AirportDTO>> getAirPorts()
+        {
+            var result = await _context.Airports.ToListAsync();
+                return _mapper.Map<List<AirportDTO>>(result);
+        }
 
 
-        public async Task<FlightDTO> Add(FlightDTO flightDTO)
+
+
+        public async Task<FlightDTO> addFlight(FlightDTO flightDTO)
         {
             try
             {
@@ -81,25 +65,29 @@ namespace BL
 
 
 
-        //public async Task<FlightDTO> Edit(FlightDTO flightDTO)
-        //{
-        //    // מציאת הטיסה הקיימת על פי ה-Id
-        //    var existingFlight = await _context.Flights.FindAsync(flightDTO.Id);
+        public async Task<FlightDTO> editFlight(FlightDTO flightDTO)
+        {
+            // מציאת הטיסה הקיימת על פי ה-Id
+            var existingFlight = await _context.Flights.FindAsync(flightDTO.Id);
 
-        //    if (existingFlight == null)
-        //    {
-        //        // מיפוי הנתונים החדשים מה-DTO לאובייקט הטיסה הקיים
-        //        _mapper.Map(flightDTO, existingFlight);
+            if (existingFlight == null)
+            {
+                // מיפוי הנתונים החדשים מה-DTO לאובייקט הטיסה הקיים
+                _mapper.Map(flightDTO, existingFlight);
 
-        //        // עדכון הנתונים בבסיס הנתונים
-        //        _context.Flights.Update(existingFlight);
-        //        await _context.SaveChangesAsync();
+                // עדכון הנתונים בבסיס הנתונים
+                _context.Flights.Update(existingFlight);
+                await _context.SaveChangesAsync();
 
-        //        // החזרת הטיסה המעודכנת כ-DTO
-        //        return _mapper.Map<Flight, FlightDTO>(existingFlight);
-        //    }
-        //}
+                // החזרת הטיסה המעודכנת כ-DTO
+                return _mapper.Map<Flight, FlightDTO>(existingFlight);
+            }
+        }
 
 
     }
 }
+
+
+
+

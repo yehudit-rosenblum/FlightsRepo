@@ -13,7 +13,7 @@ namespace BL
     {
         public FlightMappingProfile()
         {
-            // Create mappings between Flight and FlightDto
+           
             CreateMap<Flight, FlightDTO>();
             CreateMap<FlightDTO, Flight>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
@@ -22,7 +22,7 @@ namespace BL
             CreateMap<Airport, AirportDTO>();
             CreateMap<AirportDTO, Airport>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));   // ודא ששדה ה-Name ממופה
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));   
 
         }
     }

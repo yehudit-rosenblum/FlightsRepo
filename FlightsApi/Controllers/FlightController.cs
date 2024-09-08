@@ -18,24 +18,53 @@ namespace FlightsApi.Controllers
             _flightRepo = flightRepo;
         }
 
-        [HttpGet("GetFlights")]
-        public async Task<ActionResult<IEnumerable<FlightDTO>>> GetFlights()
+        [HttpGet("getFlights")]
+        public async Task<ActionResult<IEnumerable<FlightDTO>>> getFlights()
         {
-            var flightDtos =await _flightRepo.GetAll();
+            var flightDtos =await _flightRepo.getFlights();
             return Ok(flightDtos);
         }
 
-        [HttpPost("Add")]
-        public async Task<ActionResult<FlightDTO>> Add([FromBody] FlightDTO flightDto)
+        [HttpPost("addFlight")]
+        public async Task<ActionResult<FlightDTO>> addFlight([FromBody] FlightDTO flightDto)
         {
-            await _flightRepo.Add(flightDto);
+            await _flightRepo.addFlight(flightDto);
             return Ok(flightDto);
 
 
         }
-        //public async Task<FlightDTO> Edit(FlightDTO flightDTO)
-        //{
-        //    throw new NotImplementedException();
-        //}
+
+
+        [HttpPut("editFlight/{id}")]
+        public async Task<ActionResult<FlightDTO>> editFlight(int id, [FromBody] FlightDTO flightDto)
+        {
+            if (id != flightDto.Id)
+            {
+                return BadRequest("Flight ID mismatch");
+            }
+
+            try
+            {
+                await _flightRepo.editFlight(flightDto);
+                return Ok(flightDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+
+
+
+
+        [HttpGet("getAirPorts")]
+        public async Task<ActionResult<IEnumerable<AirportDTO>>> getAirPorts()
+        {
+            var airPortDtos = await _flightRepo.getAirPorts();
+            return Ok(airPortDtos);
+        }
+
     }
 }

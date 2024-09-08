@@ -9,8 +9,11 @@ namespace BL.Interfaces
 {
     public interface IFlightRepo
     {
-        public Task<List<FlightDTO>> GetAll();
-        public Task<FlightDTO> Add(FlightDTO flightDTO);
-      //  public Task<FlightDTO> Edit(FlightDTO flightDTO);
+        public Task<List<FlightDTO>> getFlights();
+        public Task<FlightDTO> addFlight(FlightDTO flightDTO);
+
+        public Task<FlightDTO> editFlight(FlightDTO flightDTO);
+
+        public Task<List<AirportDTO>> getAirPorts();
     }
 }
