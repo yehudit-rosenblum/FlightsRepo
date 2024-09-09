@@ -36,15 +36,17 @@ export class HomeComponent implements OnDestroy {
     });
   }
 
-  search(params: FlightSearchParams){
-    debugger
-    this.filteredFlights = [...this.flights];
-    if(params.flightNumber && params.flightNumber != '')
-    this.filteredFlights = this.filteredFlights.filter(f => f.flightNumber.startsWith(params.flightNumber));
-    if(params.takeoff && params.takeoff != '')
-      this.filteredFlights = this.filteredFlights.filter(f => f.takeOffAirport.name.startsWith(params.takeoff) || f.landingAirport.name.startsWith(params.takeoff));
 
-  }
+
+  
+ search(params: FlightSearchParams){
+  this.searchParams = params;
+  this.filteredFlights = [...this.flights];
+  if(params.flightNumber && params.flightNumber != '')
+  this.filteredFlights = this.filteredFlights.filter(f => f.flightNumber.startsWith(params.flightNumber));
+  if(params.takeoff && params.takeoff != '')
+    this.filteredFlights = this.filteredFlights.filter(f => f.takeOffAirport.name.startsWith(params.takeoff) || f.landingAirport.name.startsWith(params.takeoff));
+ }
 
   loadFlights(): void {
     this.flightService.getFlights().subscribe(data => {
